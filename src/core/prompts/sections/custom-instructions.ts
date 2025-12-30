@@ -297,6 +297,39 @@ async function loadAgentRulesFile(cwd: string): Promise<string> {
 	return ""
 }
 
+// counterflux_change start: Dynamic context injection for Counterflux modes
+/**
+ * Get Counterflux context injection for QA and Dev modes.
+ * This injects dynamic information about the project's test framework and patterns.
+ */
+async function getCounterfluxContextInjection(
+	cwd: string,
+	mode: "counterflux-qa" | "counterflux-dev",
+	settings?: SystemPromptSettings,
+): Promise<string> {
+	try {
+		// Import the prompt injector dynamically to avoid circular dependencies
+		const { CounterfluxPromptInjector } = await import("../../counterflux/CounterfluxPromptInjector")
+
+		const injector = new CounterfluxPromptInjector(cwd)
+		await injector.initialize()
+
+		// Get the context from the orchestrator state if available
+		// For now, we use basic injection without orchestrator state
+		const context = injector.getContextInjection(mode)
+
+		if (context) {
+			return `Counterflux Context:\n${context}`
+		}
+	} catch (err) {
+		// If Counterflux module is not available, silently skip
+		// This can happen in test environments or when the module is not built
+	}
+
+	return ""
+}
+// counterflux_change end
+
 export async function addCustomInstructions(
 	modeCustomInstructions: string,
 	globalCustomInstructions: string,
@@ -418,6 +451,15 @@ export async function addCustomInstructions(
 		sections.push(`Rules:\n\n${rules.join("\n\n")}`)
 	}
 
+	// counterflux_change start: Dynamic context injection for Counterflux modes
+	if (mode === "counterflux-qa" || mode === "counterflux-dev") {
+		const counterfluxContext = await getCounterfluxContextInjection(cwd, mode, options.settings)
+		if (counterfluxContext) {
+			sections.push(counterfluxContext)
+		}
+	}
+	// counterflux_change end
+
 	const joinedSections = sections.join("\n\n")
 
 	const effectiveProtocol = getEffectiveProtocol(options.settings?.toolProtocol)
@@ -428,9 +470,8 @@ export async function addCustomInstructions(
 
 USER'S CUSTOM INSTRUCTIONS
 
-The following additional instructions are provided by the user, and should be followed to the best of your ability${
-				isNativeProtocol(effectiveProtocol) ? "." : " without interfering with the TOOL USE guidelines."
-			}
+The following additional instructions are provided by the user, and should be followed to the best of your ability${isNativeProtocol(effectiveProtocol) ? "." : " without interfering with the TOOL USE guidelines."
+		}
 
 ${joinedSections}
 `
