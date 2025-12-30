@@ -21,3 +21,17 @@
 export { CounterfluxOrchestrator, CounterfluxState, type CounterfluxEvent, type CounterfluxCallbacks } from "./CounterfluxOrchestrator"
 
 export { type CounterfluxContext, type TestResult, type ReviewFeedback, createCounterfluxContext } from "./CounterfluxContext"
+
+export {
+    CounterfluxPromptInjector,
+    detectTestFrameworks,
+    detectProjectContext,
+    detectUnknownFramework,
+    generateQAContextInjection,
+    generateDevContextInjection,
+    generateSafetyValveInstructions,
+    type TestFrameworkInfo,
+    type ProjectContext,
+    type Language,
+    type TestType,
+} from "./CounterfluxPromptInjector"
