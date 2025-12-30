@@ -1,12 +1,12 @@
 {
-	"name": "@kilocode/cli",
+	"name": "@counterflux/cli",
 	"version": "0.18.0",
-	"description": "Terminal User Interface for Kilo Code",
+	"description": "Terminal User Interface for Counterflux AI",
 	"type": "module",
 	"main": "dist/index.js",
 	"bin": {
-		"kilocode": "dist/index.js",
-		"kilo": "dist/index.js"
+		"counterflux": "dist/index.js",
+		"cfx": "dist/index.js"
 	},
 	"scripts": {
 		"build": "node esbuild.config.mjs",
@@ -178,7 +178,7 @@
 		"terminal",
 		"ai",
 		"assistant",
-		"kilo-code",
+		"counterflux-ai",
 		"ink",
 		"react"
 	]

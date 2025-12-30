@@ -1,15 +1,15 @@
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code"><img src="https://img.shields.io/badge/VS_Code_Marketplace-007ACC?style=flat&logo=visualstudiocode&logoColor=white" alt="VS Code Marketplace"></a>
-  <a href="https://x.com/kilocode"><img src="https://img.shields.io/badge/kilocode-000000?style=flat&logo=x&logoColor=white" alt="X (Twitter)"></a>
-  <a href="https://blog.kilo.ai"><img src="https://img.shields.io/badge/Blog-555?style=flat&logo=substack&logoColor=white" alt="Substack Blog"></a>
-  <a href="https://kilo.ai/discord"><img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
-  <a href="https://www.reddit.com/r/kilocode/"><img src="https://img.shields.io/badge/Join%20r%2Fkilocode-D84315?style=flat&logo=reddit&logoColor=white" alt="Reddit"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=counterflux.Counterflux-AI"><img src="https://img.shields.io/badge/VS_Code_Marketplace-007ACC?style=flat&logo=visualstudiocode&logoColor=white" alt="VS Code Marketplace"></a>
+  <a href="https://x.com/counterfluxai"><img src="https://img.shields.io/badge/counterfluxai-000000?style=flat&logo=x&logoColor=white" alt="X (Twitter)"></a>
+  <a href="https://blog.counterflux.ai"><img src="https://img.shields.io/badge/Blog-555?style=flat&logo=substack&logoColor=white" alt="Substack Blog"></a>
+  <a href="https://counterflux.ai/discord"><img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=flat&logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="https://www.reddit.com/r/counterfluxai/"><img src="https://img.shields.io/badge/Join%20r%2Fcounterfluxai-D84315?style=flat&logo=reddit&logoColor=white" alt="Reddit"></a>
 </p>
 
-# 🚀 Kilo
+# 🚀 Counterflux AI
 
-> Kilo is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent.
-> #1 on OpenRouter. 750k+ Kilo Coders. 6.1 trillion tokens used per month.
+> Counterflux AI is the all-in-one agentic engineering platform. Build, ship, and iterate faster with the most popular open source coding agent.
+> #1 on OpenRouter. 750k+ Counterflux Coders. 6.1 trillion tokens used per month.
 
 - ✨ Generate code from natural language
 - ✅ Checks its own work
@@ -20,25 +20,25 @@
 - 💡 **Get $20 in bonus credits when you top-up for the first time** Credits can be used with 500+ models like Gemini 3 Pro, Claude 4.5 Sonnet & Opus, and GPT-5
 
 <p align="center">
-  <img src="https://media.githubusercontent.com/media/Kilo-Org/kilocode/main/kilo.gif" width="100%" />
+  <img src="kilo.gif" width="100%" />
 </p>
 
-- [VS Code Marketplace](https://kilo.ai/vscode-marketplace?utm_source=Readme) (download)
-- [Official Kilo.ai Home page](https://kilo.ai) (learn more)
+- [VS Code Marketplace](https://counterflux.ai/vscode-marketplace?utm_source=Readme) (download)
+- [Official Counterflux.ai Home page](https://counterflux.ai) (learn more)
 
 ## Key Features
 
-- **Code Generation:** Kilo can generate code using natural language.
-- **Task Automation:** Kilo can automate repetitive coding tasks.
-- **Automated Refactoring:** Kilo can refactor and improve existing code.
-- **MCP Server Marketplace**: Kilo can easily find, and use MCP servers to extend the agent capabilities.
+- **Code Generation:** Counterflux AI can generate code using natural language.
+- **Task Automation:** Counterflux AI can automate repetitive coding tasks.
+- **Automated Refactoring:** Counterflux AI can refactor and improve existing code.
+- **MCP Server Marketplace**: Counterflux AI can easily find, and use MCP servers to extend the agent capabilities.
 - **Multi Mode**: Plan with Architect, Code with Coder, and Debug with Debugger, and make your own custom modes.
 
-## How to get started with Kilo
+## How to get started with Counterflux AI
 
-1. Install the Kilo Code extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=kilocode.Kilo-Code).
+1. Install the Counterflux AI extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=counterflux.Counterflux-AI).
 2. Create your account to access 500+ cutting-edge AI models including Gemini 3 Pro, Claude 4.5 Sonnet & Opus, and GPT-5 – with transparent pricing that matches provider rates exactly.
-3. Start coding with AI that adapts to your workflow. Watch our quick-start guide to see Kilo in action:
+3. Start coding with AI that adapts to your workflow. Watch our quick-start guide to see Counterflux AI in action:
 
 [![Watch the video](https://img.youtube.com/vi/pqGfYXgrhig/maxresdefault.jpg)](https://youtu.be/pqGfYXgrhig)
 

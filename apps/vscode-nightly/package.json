@@ -1,6 +1,6 @@
 {
-	"name": "@roo-code/vscode-nightly",
-	"description": "Nightly build for the Kilo Code VSCode extension.",
+	"name": "@counterflux/vscode-nightly",
+	"description": "Nightly build for the Counterflux AI VSCode extension.",
 	"private": true,
 	"packageManager": "pnpm@10.8.1",
 	"scripts": {
