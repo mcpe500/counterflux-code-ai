@@ -91,7 +91,7 @@ export const registerCommands = (options: RegisterCommandOptions) => {
 }
 
 const getCommandsMap = ({ context, outputChannel }: RegisterCommandOptions): Record<CommandId, any> => ({
-	activationCompleted: () => {},
+	activationCompleted: () => { },
 	// kilocode_change start
 	agentManagerOpen: () => {
 		agentManagerProvider?.openPanel()
@@ -248,7 +248,7 @@ const getCommandsMap = ({ context, outputChannel }: RegisterCommandOptions): Rec
 	}, // kilocode_change begin
 	focusChatInput: async () => {
 		try {
-			await vscode.commands.executeCommand("kilo-code.SidebarProvider.focus")
+			await vscode.commands.executeCommand("counterflux-ai.SidebarProvider.focus")
 			await delay(100)
 
 			let visibleProvider = getVisibleProviderOrLog(outputChannel)
