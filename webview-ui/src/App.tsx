@@ -33,7 +33,9 @@ import { STANDARD_TOOLTIP_DELAY } from "./components/ui/standard-tooltip"
 import { useKiloIdentity } from "./utils/kilocode/useKiloIdentity"
 import { MemoryWarningBanner } from "./kilocode/MemoryWarningBanner"
 
-type Tab = "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account" | "cloud" | "profile" | "auth" // kilocode_change: add "profile" and "auth"
+import { CounterfluxSplitView } from "./components/counterflux/CounterfluxSplitView" // kilocode_change
+
+type Tab = "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account" | "cloud" | "profile" | "auth" | "counterflux" // kilocode_change: add "counterflux"
 
 interface HumanRelayDialogState {
 	isOpen: boolean
@@ -95,6 +97,7 @@ const App = () => {
 		renderContext,
 		mdmCompliant,
 		apiConfiguration, // kilocode_change
+		mode, // kilocode_change: need mode for auto-switch
 	} = useExtensionState()
 
 	// Create a persistent state manager
@@ -102,6 +105,17 @@ const App = () => {
 
 	const [showAnnouncement, setShowAnnouncement] = useState(false)
 	const [tab, setTab] = useState<Tab>("chat")
+
+	// kilocode_change start: Auto-switch to Counterflux view
+	useEffect(() => {
+		if (mode === "counterflux-qa" || mode === "counterflux-dev") {
+			setTab("counterflux")
+		} else if (tab === "counterflux") {
+			// Switch back to chat if we leave counterflux modes
+			setTab("chat")
+		}
+	}, [mode])
+	// kilocode_change end
 	const [authReturnTo, setAuthReturnTo] = useState<"chat" | "settings">("chat")
 	const [authProfileName, setAuthProfileName] = useState<string | undefined>(undefined)
 	const [settingsEditingProfile, setSettingsEditingProfile] = useState<string | undefined>(undefined)
@@ -370,6 +384,10 @@ const App = () => {
 				showAnnouncement={showAnnouncement}
 				hideAnnouncement={() => setShowAnnouncement(false)}
 			/>
+			{/* kilocode_change start: Counterflux Split View */}
+			{tab === "counterflux" && <CounterfluxSplitView isHidden={false} />}
+			{/* kilocode_change end */}
+
 			<MemoizedHumanRelayDialog
 				isOpen={humanRelayDialogState.isOpen}
 				requestId={humanRelayDialogState.requestId}
