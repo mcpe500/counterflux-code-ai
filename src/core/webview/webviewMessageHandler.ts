@@ -4326,21 +4326,15 @@ export const webviewMessageHandler = async (
 
 				provider.log(`[Adversarial Studio] Created task ${task.taskId} for prompt`)
 
-				// Update logs to show task is running - DON'T redirect, keep Studio open
+				// IMPORTANT: Trigger the UI to actually show and process the task
+				await provider.postMessageToWebview({ type: "invoke", invoke: "newChat" })
+
+				// Update logs to show task is running
 				if (targetQa) {
 					await provider.postMessageToWebview({
 						type: "parralel:qa:log",
 						logType: "success",
 						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:qa:log",
-						logType: "info",
-						message: `AI is now processing. Check Chat tab for live progress.`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:qa:status",
-						status: "idle",
 					} as any)
 				}
 				if (targetDev) {
@@ -4349,11 +4343,23 @@ export const webviewMessageHandler = async (
 						logType: "success",
 						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
 					} as any)
+				}
+
+				// Switch to chat tab so user can see the AI working
+				await provider.postMessageToWebview({
+					type: "action",
+					action: "switchTab",
+					tab: "chat",
+				})
+
+				// Reset status after switching
+				if (targetQa) {
 					await provider.postMessageToWebview({
-						type: "parralel:dev:log",
-						logType: "info",
-						message: `AI is now processing. Check Chat tab for live progress.`,
+						type: "parralel:qa:status",
+						status: "idle",
 					} as any)
+				}
+				if (targetDev) {
 					await provider.postMessageToWebview({
 						type: "parralel:dev:status",
 						status: "idle",
