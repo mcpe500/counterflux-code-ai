@@ -33,8 +33,7 @@ import { STANDARD_TOOLTIP_DELAY } from "./components/ui/standard-tooltip"
 import { useKiloIdentity } from "./utils/kilocode/useKiloIdentity"
 import { MemoryWarningBanner } from "./kilocode/MemoryWarningBanner"
 
-import { CounterfluxSplitView } from "./components/counterflux/CounterfluxSplitView" // kilocode_change
-import { ParralelView } from "./components/counterflux/ParralelView" // kilocode_change: Parralel mode
+import { AdversarialStudioView } from "./components/counterflux/AdversarialStudioView" // counterflux_change: Adversarial Studio
 
 type Tab = "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account" | "cloud" | "profile" | "auth" | "counterflux" | "parralel" // kilocode_change: add "parralel"
 
@@ -107,16 +106,7 @@ const App = () => {
 	const [showAnnouncement, setShowAnnouncement] = useState(false)
 	const [tab, setTab] = useState<Tab>("chat")
 
-	// kilocode_change start: Auto-switch to Counterflux view
-	useEffect(() => {
-		if (mode === "counterflux-qa" || mode === "counterflux-dev") {
-			setTab("counterflux")
-		} else if (tab === "counterflux") {
-			// Switch back to chat if we leave counterflux modes
-			setTab("chat")
-		}
-	}, [mode])
-	// kilocode_change end
+	// counterflux_change: Removed auto-switch based on mode - Adversarial Studio is accessed via button
 	const [authReturnTo, setAuthReturnTo] = useState<"chat" | "settings">("chat")
 	const [authProfileName, setAuthProfileName] = useState<string | undefined>(undefined)
 	const [settingsEditingProfile, setSettingsEditingProfile] = useState<string | undefined>(undefined)
@@ -385,12 +375,8 @@ const App = () => {
 				showAnnouncement={showAnnouncement}
 				hideAnnouncement={() => setShowAnnouncement(false)}
 			/>
-			{/* kilocode_change start: Counterflux Split View */}
-			{tab === "counterflux" && <CounterfluxSplitView isHidden={false} />}
-			{/* kilocode_change end */}
-			{/* kilocode_change start: Parralel Mode View */}
-			{tab === "parralel" && <ParralelView isHidden={false} />}
-			{/* kilocode_change end */}
+			{/* counterflux_change: Adversarial Studio View */}
+			{tab === "parralel" && <AdversarialStudioView isHidden={false} />}
 
 			<MemoizedHumanRelayDialog
 				isOpen={humanRelayDialogState.isOpen}

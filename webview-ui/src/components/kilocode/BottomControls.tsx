@@ -23,6 +23,12 @@ const BottomControls: React.FC<BottomControlsProps> = ({ showApiConfig = false }
 			</div>
 			<div className="flex flex-row justify-end w-auto">
 				<div className="flex items-center gap-1">
+					{/* counterflux_change: Add Adversarial Studio button */}
+					<BottomButton
+						iconClass="codicon-split-horizontal"
+						title="Adversarial Studio"
+						onClick={() => vscode.postMessage({ type: "switchTab", tab: "parralel" })}
+					/>
 					<KiloRulesToggleModal />
 					<BottomButton
 						iconClass="codicon-feedback"

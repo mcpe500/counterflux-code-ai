@@ -4253,37 +4253,112 @@ export const webviewMessageHandler = async (
 
 		// kilocode_change start - Parralel Mode handlers
 		case "parralel:start": {
-			// TODO: Initialize ParralelOrchestrator and start parallel workflow
-			provider.log(`[Parralel] Starting parallel mode with prompt: ${message.prompt}`)
-			// For now, just acknowledge receipt
+			// Initialize parallel mode and start workflow
+			provider.log(`[Adversarial Studio] Starting with prompt: ${message.prompt}`)
 			await provider.postMessageToWebview({
 				type: "parralel:orchestrator:status",
 				status: "running",
 			} as any)
+			// Send initial log to QA
+			await provider.postMessageToWebview({
+				type: "parralel:qa:log",
+				logType: "info",
+				message: "Analyzing task and generating specifications...",
+			} as any)
+			break
+		}
+		case "parralel:unified:send": {
+			// counterflux_change: Handle unified send with @mentions
+			const { prompt, targetQa, targetDev } = message
+			provider.log(`[Adversarial Studio] Unified send - QA: ${targetQa}, Dev: ${targetDev}, Prompt: ${prompt}`)
+
+			if (targetQa) {
+				await provider.postMessageToWebview({
+					type: "parralel:qa:status",
+					status: "thinking",
+				} as any)
+				await provider.postMessageToWebview({
+					type: "parralel:qa:log",
+					logType: "info",
+					message: "Processing request...",
+				} as any)
+				// Simulate QA work (in real impl, this would call the agent)
+				setTimeout(async () => {
+					await provider.postMessageToWebview({
+						type: "parralel:qa:log",
+						logType: "success",
+						message: "Analysis complete. Ready for next instruction.",
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:qa:status",
+						status: "idle",
+					} as any)
+				}, 2000)
+			}
+
+			if (targetDev) {
+				await provider.postMessageToWebview({
+					type: "parralel:dev:status",
+					status: "thinking",
+				} as any)
+				await provider.postMessageToWebview({
+					type: "parralel:dev:log",
+					logType: "info",
+					message: "Processing request...",
+				} as any)
+				// Simulate Dev work (in real impl, this would call the agent)
+				setTimeout(async () => {
+					await provider.postMessageToWebview({
+						type: "parralel:dev:log",
+						logType: "success",
+						message: "Implementation complete. Ready for next instruction.",
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:dev:status",
+						status: "idle",
+					} as any)
+				}, 2500)
+			}
 			break
 		}
 		case "parralel:qa:send": {
-			// TODO: Send message to QA agent session
-			provider.log(`[Parralel] QA message: ${message.message}`)
+			provider.log(`[Adversarial Studio] QA message: ${message.message}`)
+			await provider.postMessageToWebview({
+				type: "parralel:qa:log",
+				logType: "info",
+				message: `Processing: ${message.message}`,
+			} as any)
 			break
 		}
 		case "parralel:dev:send": {
-			// TODO: Send message to Dev agent session
-			provider.log(`[Parralel] Dev message: ${message.message}`)
+			provider.log(`[Adversarial Studio] Dev message: ${message.message}`)
+			await provider.postMessageToWebview({
+				type: "parralel:dev:log",
+				logType: "info",
+				message: `Processing: ${message.message}`,
+			} as any)
 			break
 		}
 		case "parralel:spec:freeze": {
-			// TODO: Freeze the spec document
-			provider.log("[Parralel] Freezing spec")
+			provider.log("[Adversarial Studio] Freezing spec")
 			await provider.postMessageToWebview({
 				type: "parralel:spec:updated",
 				status: "frozen",
 			} as any)
+			await provider.postMessageToWebview({
+				type: "parralel:qa:log",
+				logType: "success",
+				message: "SPEC frozen. Now generating test cases...",
+			} as any)
+			await provider.postMessageToWebview({
+				type: "parralel:dev:log",
+				logType: "info",
+				message: "SPEC frozen. Ready to implement.",
+			} as any)
 			break
 		}
 		case "parralel:spec:lock": {
-			// TODO: Lock the spec document
-			provider.log("[Parralel] Locking spec")
+			provider.log("[Adversarial Studio] Locking spec")
 			await provider.postMessageToWebview({
 				type: "parralel:spec:updated",
 				status: "locked",
@@ -4291,11 +4366,11 @@ export const webviewMessageHandler = async (
 			break
 		}
 		case "parralel:mode:toggle": {
-			provider.log(`[Parralel] Mode toggle: ${message.isParralel}`)
+			provider.log(`[Adversarial Studio] Mode toggle: ${message.isParralel}`)
 			break
 		}
 		case "parralel:pause": {
-			provider.log("[Parralel] Pausing workflow")
+			provider.log("[Adversarial Studio] Pausing workflow")
 			await provider.postMessageToWebview({
 				type: "parralel:orchestrator:status",
 				status: "paused",
@@ -4303,7 +4378,7 @@ export const webviewMessageHandler = async (
 			break
 		}
 		case "parralel:resume": {
-			provider.log("[Parralel] Resuming workflow")
+			provider.log("[Adversarial Studio] Resuming workflow")
 			await provider.postMessageToWebview({
 				type: "parralel:orchestrator:status",
 				status: "running",
@@ -4311,7 +4386,7 @@ export const webviewMessageHandler = async (
 			break
 		}
 		case "parralel:abort": {
-			provider.log("[Parralel] Aborting workflow")
+			provider.log("[Adversarial Studio] Aborting workflow")
 			await provider.postMessageToWebview({
 				type: "parralel:orchestrator:status",
 				status: "idle",

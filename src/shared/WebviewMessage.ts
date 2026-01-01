@@ -290,6 +290,7 @@ export interface WebviewMessage {
 	| "chatCompletionAccepted" // kilocode_change: User accepted a chat completion suggestion
 	// kilocode_change start: Parralel mode messages
 	| "parralel:start"
+	| "parralel:unified:send" // counterflux_change: Unified send with @mentions
 	| "parralel:qa:send"
 	| "parralel:dev:send"
 	| "parralel:spec:freeze"
@@ -305,7 +306,7 @@ export interface WebviewMessage {
 	shareId?: string // kilocode_change - for sessionFork
 	sessionId?: string // kilocode_change - for sessionSelect
 	editedMessageContent?: string
-	tab?: "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "cloud" | "auth" // kilocode_change
+	tab?: "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "cloud" | "auth" | "parralel" // counterflux_change: added parralel
 	disabled?: boolean
 	context?: string
 	dataUri?: string
@@ -376,9 +377,11 @@ export interface WebviewMessage {
 	useProviderSignup?: boolean // For rooCloudSignIn to use provider signup flow
 	historyItem?: HistoryItem // kilocode_change For addTaskToHistory
 	// kilocode_change start: Parralel mode properties
-	prompt?: string // For parralel:start
+	prompt?: string // For parralel:start, parralel:unified:send
 	message?: string // For parralel:qa:send, parralel:dev:send
 	isParralel?: boolean // For parralel:mode:toggle
+	targetQa?: boolean // counterflux_change: For parralel:unified:send
+	targetDev?: boolean // counterflux_change: For parralel:unified:send
 	// kilocode_change end: Parralel mode properties
 	codeIndexSettings?: {
 		// Global state settings
