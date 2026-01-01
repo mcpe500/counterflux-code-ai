@@ -92,6 +92,41 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
                         setDevStatus('IDLE');
                     }
                     break;
+
+                // Also listen for regular clineMessage updates to show AI progress here!
+                case 'clineMessage':
+                    if (message.clineMessage) {
+                        const msg = message.clineMessage;
+                        // Show assistant messages in both panels as they come in
+                        if (msg.type === 'say' && msg.say === 'text') {
+                            const text = msg.text || '';
+                            const preview = text.length > 200 ? text.substring(0, 200) + '...' : text;
+                            addLog('qa', 'info', `AI: ${preview}`);
+                            addLog('dev', 'info', `AI: ${preview}`);
+                            setQaStatus('PROCESSING');
+                            setDevStatus('PROCESSING');
+                        } else if (msg.type === 'say' && msg.say === 'tool') {
+                            addLog('dev', 'cmd', `> Tool: ${msg.text?.substring(0, 100) || 'executing...'}`);
+                            setDevStatus('PROCESSING');
+                        } else if (msg.type === 'say' && msg.say === 'completion_result') {
+                            addLog('qa', 'success', 'Task completed!');
+                            addLog('dev', 'success', 'Task completed!');
+                            setQaStatus('IDLE');
+                            setDevStatus('IDLE');
+                            setIsProcessing(false);
+                        }
+                    }
+                    break;
+
+                // Also listen for streaming partial updates
+                case 'partialMessage':
+                    if (message.partialMessage) {
+                        // Show that AI is actively working
+                        setQaStatus('PROCESSING');
+                        setDevStatus('PROCESSING');
+                        setIsProcessing(true);
+                    }
+                    break;
             }
         };
 

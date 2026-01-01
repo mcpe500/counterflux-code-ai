@@ -4329,12 +4329,17 @@ export const webviewMessageHandler = async (
 				// IMPORTANT: Trigger the UI to actually show and process the task
 				await provider.postMessageToWebview({ type: "invoke", invoke: "newChat" })
 
-				// Update logs to show task is running
+				// Update logs to show task is running - user stays in Studio!
 				if (targetQa) {
 					await provider.postMessageToWebview({
 						type: "parralel:qa:log",
 						logType: "success",
 						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:qa:log",
+						logType: "info",
+						message: `AI is working... Updates will appear here.`,
 					} as any)
 				}
 				if (targetDev) {
@@ -4343,28 +4348,15 @@ export const webviewMessageHandler = async (
 						logType: "success",
 						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
 					} as any)
-				}
-
-				// Switch to chat tab so user can see the AI working
-				await provider.postMessageToWebview({
-					type: "action",
-					action: "switchTab",
-					tab: "chat",
-				})
-
-				// Reset status after switching
-				if (targetQa) {
 					await provider.postMessageToWebview({
-						type: "parralel:qa:status",
-						status: "idle",
+						type: "parralel:dev:log",
+						logType: "info",
+						message: `AI is working... Updates will appear here.`,
 					} as any)
 				}
-				if (targetDev) {
-					await provider.postMessageToWebview({
-						type: "parralel:dev:status",
-						status: "idle",
-					} as any)
-				}
+
+				// NOTE: We DON'T switch tabs - user stays in Adversarial Studio
+				// The Studio will receive clineMessage updates and show AI progress
 
 			} catch (error) {
 				provider.log(`[Adversarial Studio] Error creating task: ${error}`)
