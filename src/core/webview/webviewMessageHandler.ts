@@ -846,29 +846,29 @@ export const webviewMessageHandler = async (
 			const routerModels: Record<RouterName, ModelRecord> = providerFilter
 				? ({} as Record<RouterName, ModelRecord>)
 				: {
-						// kilocode_change start
-						ovhcloud: {},
-						inception: {},
-						kilocode: {},
-						gemini: {},
-						// kilocode_change end
-						openrouter: {},
-						"vercel-ai-gateway": {},
-						huggingface: {},
-						litellm: {},
-						deepinfra: {},
-						"io-intelligence": {},
-						requesty: {},
-						unbound: {},
-						glama: {}, // kilocode_change
-						ollama: {},
-						lmstudio: {},
-						roo: {},
-						synthetic: {}, // kilocode_change
-						"sap-ai-core": {}, // kilocode_change
-						chutes: {},
-						"nano-gpt": {}, // kilocode_change
-					}
+					// kilocode_change start
+					ovhcloud: {},
+					inception: {},
+					kilocode: {},
+					gemini: {},
+					// kilocode_change end
+					openrouter: {},
+					"vercel-ai-gateway": {},
+					huggingface: {},
+					litellm: {},
+					deepinfra: {},
+					"io-intelligence": {},
+					requesty: {},
+					unbound: {},
+					glama: {}, // kilocode_change
+					ollama: {},
+					lmstudio: {},
+					roo: {},
+					synthetic: {}, // kilocode_change
+					"sap-ai-core": {}, // kilocode_change
+					chutes: {},
+					"nano-gpt": {}, // kilocode_change
+				}
 
 			const safeGetModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
 				try {
@@ -2356,10 +2356,10 @@ export const webviewMessageHandler = async (
 							const existingMode = existingModes.find((mode) => mode.slug === message.modeConfig?.slug)
 							const changedSettings = existingMode
 								? Object.keys(message.modeConfig).filter(
-										(key) =>
-											JSON.stringify((existingMode as Record<string, unknown>)[key]) !==
-											JSON.stringify((message.modeConfig as Record<string, unknown>)[key]),
-									)
+									(key) =>
+										JSON.stringify((existingMode as Record<string, unknown>)[key]) !==
+										JSON.stringify((message.modeConfig as Record<string, unknown>)[key]),
+								)
 								: []
 
 							if (changedSettings.length > 0) {
@@ -3260,13 +3260,13 @@ export const webviewMessageHandler = async (
 			const status = manager
 				? manager.getCurrentStatus()
 				: {
-						systemStatus: "Standby",
-						message: "No workspace folder open",
-						processedItems: 0,
-						totalItems: 0,
-						currentItemUnit: "items",
-						workspacePath: undefined,
-					}
+					systemStatus: "Standby",
+					message: "No workspace folder open",
+					processedItems: 0,
+					totalItems: 0,
+					currentItemUnit: "items",
+					workspacePath: undefined,
+				}
 
 			provider.postMessageToWebview({
 				type: "indexingStatusUpdate",
@@ -4250,6 +4250,75 @@ export const webviewMessageHandler = async (
 			break
 		}
 		// kilocode_change end
+
+		// kilocode_change start - Parralel Mode handlers
+		case "parralel:start": {
+			// TODO: Initialize ParralelOrchestrator and start parallel workflow
+			provider.log(`[Parralel] Starting parallel mode with prompt: ${message.prompt}`)
+			// For now, just acknowledge receipt
+			await provider.postMessageToWebview({
+				type: "parralel:orchestrator:status",
+				status: "running",
+			} as any)
+			break
+		}
+		case "parralel:qa:send": {
+			// TODO: Send message to QA agent session
+			provider.log(`[Parralel] QA message: ${message.message}`)
+			break
+		}
+		case "parralel:dev:send": {
+			// TODO: Send message to Dev agent session
+			provider.log(`[Parralel] Dev message: ${message.message}`)
+			break
+		}
+		case "parralel:spec:freeze": {
+			// TODO: Freeze the spec document
+			provider.log("[Parralel] Freezing spec")
+			await provider.postMessageToWebview({
+				type: "parralel:spec:updated",
+				status: "frozen",
+			} as any)
+			break
+		}
+		case "parralel:spec:lock": {
+			// TODO: Lock the spec document
+			provider.log("[Parralel] Locking spec")
+			await provider.postMessageToWebview({
+				type: "parralel:spec:updated",
+				status: "locked",
+			} as any)
+			break
+		}
+		case "parralel:mode:toggle": {
+			provider.log(`[Parralel] Mode toggle: ${message.isParralel}`)
+			break
+		}
+		case "parralel:pause": {
+			provider.log("[Parralel] Pausing workflow")
+			await provider.postMessageToWebview({
+				type: "parralel:orchestrator:status",
+				status: "paused",
+			} as any)
+			break
+		}
+		case "parralel:resume": {
+			provider.log("[Parralel] Resuming workflow")
+			await provider.postMessageToWebview({
+				type: "parralel:orchestrator:status",
+				status: "running",
+			} as any)
+			break
+		}
+		case "parralel:abort": {
+			provider.log("[Parralel] Aborting workflow")
+			await provider.postMessageToWebview({
+				type: "parralel:orchestrator:status",
+				status: "idle",
+			} as any)
+			break
+		}
+		// kilocode_change end - Parralel Mode handlers
 		default: {
 			// console.log(`Unhandled message type: ${message.type}`)
 			//

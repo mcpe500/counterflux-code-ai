@@ -34,8 +34,9 @@ import { useKiloIdentity } from "./utils/kilocode/useKiloIdentity"
 import { MemoryWarningBanner } from "./kilocode/MemoryWarningBanner"
 
 import { CounterfluxSplitView } from "./components/counterflux/CounterfluxSplitView" // kilocode_change
+import { ParralelView } from "./components/counterflux/ParralelView" // kilocode_change: Parralel mode
 
-type Tab = "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account" | "cloud" | "profile" | "auth" | "counterflux" // kilocode_change: add "counterflux"
+type Tab = "settings" | "history" | "mcp" | "modes" | "chat" | "marketplace" | "account" | "cloud" | "profile" | "auth" | "counterflux" | "parralel" // kilocode_change: add "parralel"
 
 interface HumanRelayDialogState {
 	isOpen: boolean
@@ -386,6 +387,9 @@ const App = () => {
 			/>
 			{/* kilocode_change start: Counterflux Split View */}
 			{tab === "counterflux" && <CounterfluxSplitView isHidden={false} />}
+			{/* kilocode_change end */}
+			{/* kilocode_change start: Parralel Mode View */}
+			{tab === "parralel" && <ParralelView isHidden={false} />}
 			{/* kilocode_change end */}
 
 			<MemoizedHumanRelayDialog
