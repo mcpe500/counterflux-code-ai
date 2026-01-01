@@ -39,17 +39,41 @@ type AgentStatus = 'IDLE' | 'PROCESSING';
 /**
  * AdversarialStudioView - High contrast responsive split-pane layout
  * Based on example-design.html v2.0
+ * 
+ * Features:
+ * - Persistent logs (survive tab switches)
+ * - Parallel task tracking (stores task IDs)
+ * - Live AI progress streaming
  */
 export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidden }) => {
-    // Agent states
+    // Load persisted state from sessionStorage
+    const loadPersistedLogs = (key: string): LogEntry[] => {
+        try {
+            const stored = sessionStorage.getItem(`adversarial_${key}`);
+            if (stored) return JSON.parse(stored);
+        } catch (e) {
+            console.error('Failed to load logs:', e);
+        }
+        return [{ id: '1', time: formatTime(), type: 'system', message: key === 'qa' ? 'System ready. Waiting for test specs.' : 'Environment loaded. Ready to code.' }];
+    };
+
+    const loadParallelTasks = (): string[] => {
+        try {
+            const stored = sessionStorage.getItem('adversarial_tasks');
+            if (stored) return JSON.parse(stored);
+        } catch (e) { }
+        return [];
+    };
+
+    // Agent states with persistence
     const [qaStatus, setQaStatus] = useState<AgentStatus>('IDLE');
     const [devStatus, setDevStatus] = useState<AgentStatus>('IDLE');
-    const [qaLogs, setQaLogs] = useState<LogEntry[]>([
-        { id: '1', time: formatTime(), type: 'system', message: 'System ready. Waiting for test specs.' }
-    ]);
-    const [devLogs, setDevLogs] = useState<LogEntry[]>([
-        { id: '1', time: formatTime(), type: 'system', message: 'Environment loaded. Ready to code.' }
-    ]);
+    const [qaLogs, setQaLogs] = useState<LogEntry[]>(() => loadPersistedLogs('qa'));
+    const [devLogs, setDevLogs] = useState<LogEntry[]>(() => loadPersistedLogs('dev'));
+
+    // Parallel task tracking
+    const [parallelTasks, setParallelTasks] = useState<string[]>(() => loadParallelTasks());
+    const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
 
     // Panel collapse states
     const [qaCollapsed, setQaCollapsed] = useState(false);
@@ -66,6 +90,19 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
     // Detect @mentions
     const hasQaMention = promptInput.toLowerCase().includes('@qa');
     const hasDevMention = promptInput.toLowerCase().includes('@dev');
+
+    // Persist logs whenever they change
+    useEffect(() => {
+        sessionStorage.setItem('adversarial_qa', JSON.stringify(qaLogs.slice(-100))); // Keep last 100
+    }, [qaLogs]);
+
+    useEffect(() => {
+        sessionStorage.setItem('adversarial_dev', JSON.stringify(devLogs.slice(-100)));
+    }, [devLogs]);
+
+    useEffect(() => {
+        sessionStorage.setItem('adversarial_tasks', JSON.stringify(parallelTasks));
+    }, [parallelTasks]);
 
     // Listen for messages from the extension
     useEffect(() => {
@@ -93,38 +130,64 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
                     }
                     break;
 
+                // Track parallel task creation
+                case 'parralel:task:created':
+                    if (message.taskId) {
+                        setActiveTaskId(message.taskId);
+                        setParallelTasks(prev => {
+                            if (!prev.includes(message.taskId)) {
+                                return [...prev.slice(-9), message.taskId]; // Keep last 10
+                            }
+                            return prev;
+                        });
+                    }
+                    break;
+
                 // Also listen for regular clineMessage updates to show AI progress here!
-                case 'clineMessage':
-                    if (message.clineMessage) {
-                        const msg = message.clineMessage;
-                        // Show assistant messages in both panels as they come in
-                        if (msg.type === 'say' && msg.say === 'text') {
-                            const text = msg.text || '';
-                            const preview = text.length > 200 ? text.substring(0, 200) + '...' : text;
-                            addLog('qa', 'info', `AI: ${preview}`);
-                            addLog('dev', 'info', `AI: ${preview}`);
-                            setQaStatus('PROCESSING');
-                            setDevStatus('PROCESSING');
-                        } else if (msg.type === 'say' && msg.say === 'tool') {
-                            addLog('dev', 'cmd', `> Tool: ${msg.text?.substring(0, 100) || 'executing...'}`);
-                            setDevStatus('PROCESSING');
-                        } else if (msg.type === 'say' && msg.say === 'completion_result') {
-                            addLog('qa', 'success', 'Task completed!');
-                            addLog('dev', 'success', 'Task completed!');
-                            setQaStatus('IDLE');
-                            setDevStatus('IDLE');
+                // The extension sends 'state' updates with clineMessages array
+                case 'state':
+                    if (message.state?.clineMessages && message.state.clineMessages.length > 0) {
+                        const lastMsg = message.state.clineMessages[message.state.clineMessages.length - 1];
+                        if (lastMsg.type === 'say') {
+                            if (lastMsg.say === 'text' && lastMsg.text) {
+                                const preview = lastMsg.text.length > 150 ? lastMsg.text.substring(0, 150) + '...' : lastMsg.text;
+                                // Only add if not already in logs (check last entry)
+                                addLog('qa', 'info', `AI: ${preview}`);
+                                addLog('dev', 'info', `AI: ${preview}`);
+                                setQaStatus('PROCESSING');
+                                setDevStatus('PROCESSING');
+                                setIsProcessing(true);
+                            } else if (lastMsg.say === 'tool' || lastMsg.say === 'command') {
+                                addLog('dev', 'cmd', `> ${lastMsg.say}: ${(lastMsg.text || '').substring(0, 80)}...`);
+                                setDevStatus('PROCESSING');
+                            } else if (lastMsg.say === 'completion_result') {
+                                addLog('qa', 'success', 'Task completed!');
+                                addLog('dev', 'success', 'Task completed!');
+                                setQaStatus('IDLE');
+                                setDevStatus('IDLE');
+                                setIsProcessing(false);
+                            } else if (lastMsg.say === 'api_req_started') {
+                                addLog('qa', 'info', 'API request started...');
+                                setQaStatus('PROCESSING');
+                                setDevStatus('PROCESSING');
+                                setIsProcessing(true);
+                            }
+                        } else if (lastMsg.type === 'ask') {
+                            addLog('qa', 'info', `Waiting for: ${lastMsg.ask || 'user input'}`);
                             setIsProcessing(false);
                         }
                     }
                     break;
 
-                // Also listen for streaming partial updates
-                case 'partialMessage':
-                    if (message.partialMessage) {
-                        // Show that AI is actively working
-                        setQaStatus('PROCESSING');
-                        setDevStatus('PROCESSING');
-                        setIsProcessing(true);
+                // Also listen for individual message updates
+                case 'messageUpdated':
+                    if (message.clineMessage) {
+                        const msg = message.clineMessage;
+                        if (msg.type === 'say' && msg.say === 'text' && msg.text) {
+                            const preview = msg.text.length > 150 ? msg.text.substring(0, 150) + '...' : msg.text;
+                            addLog('dev', 'info', `AI: ${preview}`);
+                            setDevStatus('PROCESSING');
+                        }
                     }
                     break;
             }
@@ -223,6 +286,17 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
         }
     }, []);
 
+    // Clear all history
+    const clearHistory = useCallback(() => {
+        setQaLogs([{ id: '1', time: formatTime(), type: 'system', message: 'History cleared. System ready.' }]);
+        setDevLogs([{ id: '1', time: formatTime(), type: 'system', message: 'History cleared. Ready to code.' }]);
+        setParallelTasks([]);
+        setActiveTaskId(null);
+        sessionStorage.removeItem('adversarial_qa');
+        sessionStorage.removeItem('adversarial_dev');
+        sessionStorage.removeItem('adversarial_tasks');
+    }, []);
+
     if (isHidden) return null;
 
     return (
@@ -298,6 +372,44 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
                     >
                         <span className="codicon codicon-comment-discussion" style={{ fontSize: '12px' }} />
                         View Chat
+                    </button>
+                    {/* Task counter */}
+                    {parallelTasks.length > 0 && (
+                        <div style={{
+                            background: cssVars.colorQa,
+                            color: '#000',
+                            padding: '2px 8px',
+                            borderRadius: '10px',
+                            fontSize: '10px',
+                            fontWeight: 600,
+                        }}>
+                            {parallelTasks.length} task{parallelTasks.length > 1 ? 's' : ''}
+                        </div>
+                    )}
+                    {/* Active task indicator */}
+                    {activeTaskId && (
+                        <div style={{
+                            fontSize: '10px',
+                            color: isProcessing ? cssVars.colorDev : cssVars.textDim,
+                            fontFamily: "'Fira Code', monospace",
+                        }}>
+                            {activeTaskId.substring(0, 8)}...
+                        </div>
+                    )}
+                    {/* Clear history button */}
+                    <button
+                        onClick={clearHistory}
+                        style={{
+                            background: 'transparent',
+                            border: 'none',
+                            color: cssVars.textDim,
+                            cursor: 'pointer',
+                            padding: '4px',
+                            fontSize: '10px',
+                        }}
+                        title="Clear history"
+                    >
+                        <span className="codicon codicon-trash" />
                     </button>
                     <span style={{ fontSize: '10px', color: cssVars.textDim }}>v2.0</span>
                 </div>

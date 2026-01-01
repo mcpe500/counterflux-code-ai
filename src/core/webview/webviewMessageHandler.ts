@@ -4326,6 +4326,14 @@ export const webviewMessageHandler = async (
 
 				provider.log(`[Adversarial Studio] Created task ${task.taskId} for prompt`)
 
+				// Send task ID to Studio for tracking
+				await provider.postMessageToWebview({
+					type: "parralel:task:created",
+					taskId: task.taskId,
+					targetQa,
+					targetDev,
+				} as any)
+
 				// IMPORTANT: Trigger the UI to actually show and process the task
 				await provider.postMessageToWebview({ type: "invoke", invoke: "newChat" })
 
