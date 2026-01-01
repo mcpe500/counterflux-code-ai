@@ -4326,13 +4326,39 @@ export const webviewMessageHandler = async (
 
 				provider.log(`[Adversarial Studio] Created task ${task.taskId} for prompt`)
 
-				// The task is now running - the UI will be updated through the normal chat flow
-				// Switch back to chat tab to show the AI working
-				await provider.postMessageToWebview({
-					type: "action",
-					action: "switchTab",
-					tab: "chat",
-				})
+				// Update logs to show task is running - DON'T redirect, keep Studio open
+				if (targetQa) {
+					await provider.postMessageToWebview({
+						type: "parralel:qa:log",
+						logType: "success",
+						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:qa:log",
+						logType: "info",
+						message: `AI is now processing. Check Chat tab for live progress.`,
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:qa:status",
+						status: "idle",
+					} as any)
+				}
+				if (targetDev) {
+					await provider.postMessageToWebview({
+						type: "parralel:dev:log",
+						logType: "success",
+						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:dev:log",
+						logType: "info",
+						message: `AI is now processing. Check Chat tab for live progress.`,
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:dev:status",
+						status: "idle",
+					} as any)
+				}
 
 			} catch (error) {
 				provider.log(`[Adversarial Studio] Error creating task: ${error}`)

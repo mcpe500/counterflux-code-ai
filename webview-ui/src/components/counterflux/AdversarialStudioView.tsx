@@ -159,6 +159,9 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
 
         setPromptInput('');
         setIsProcessing(true);
+
+        // Reset processing state after a brief delay so user can send more commands
+        setTimeout(() => setIsProcessing(false), 1000);
     }, [promptInput, isProcessing, hasQaMention, hasDevMention, addLog]);
 
     // Handle mention chip click
@@ -240,7 +243,29 @@ export const AdversarialStudioView: React.FC<{ isHidden: boolean }> = ({ isHidde
                     <span>COUNTERFLUX</span>
                     <span style={{ color: cssVars.textDim, fontWeight: 400 }}>// ADVERSARIAL STUDIO</span>
                 </div>
-                <span style={{ fontSize: '10px', color: cssVars.textDim }}>v2.0</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <button
+                        onClick={handleBack}
+                        style={{
+                            background: '#333',
+                            border: 'none',
+                            color: cssVars.textMain,
+                            cursor: 'pointer',
+                            padding: '4px 10px',
+                            fontSize: '10px',
+                            fontWeight: 600,
+                            borderRadius: '2px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                        }}
+                        title="View AI progress in Chat"
+                    >
+                        <span className="codicon codicon-comment-discussion" style={{ fontSize: '12px' }} />
+                        View Chat
+                    </button>
+                    <span style={{ fontSize: '10px', color: cssVars.textDim }}>v2.0</span>
+                </div>
             </div>
 
             {/* Main Grid */}
