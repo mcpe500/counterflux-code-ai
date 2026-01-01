@@ -4268,56 +4268,99 @@ export const webviewMessageHandler = async (
 			break
 		}
 		case "parralel:unified:send": {
-			// counterflux_change: Handle unified send with @mentions
+			// counterflux_change: Handle unified send with @mentions - Actually create AI task!
 			const { prompt, targetQa, targetDev } = message
 			provider.log(`[Adversarial Studio] Unified send - QA: ${targetQa}, Dev: ${targetDev}, Prompt: ${prompt}`)
 
-			if (targetQa) {
-				await provider.postMessageToWebview({
-					type: "parralel:qa:status",
-					status: "thinking",
-				} as any)
-				await provider.postMessageToWebview({
-					type: "parralel:qa:log",
-					logType: "info",
-					message: "Processing request...",
-				} as any)
-				// Simulate QA work (in real impl, this would call the agent)
-				setTimeout(async () => {
+			try {
+				// Determine which mode to use based on targets
+				let mode: string | undefined
+				let prefixedPrompt = prompt
+
+				if (targetQa && targetDev) {
+					// Both agents - use default mode with a combined prompt
+					mode = undefined // Use current mode
+					prefixedPrompt = `[ADVERSARIAL MODE] Both QA and Developer agents are tasked with:\n\n${prompt}\n\nQA Agent: Focus on testing, spec creation, and verification. Developer Agent: Focus on implementation.`
+				} else if (targetQa) {
+					// QA only - switch to counterflux-qa mode
+					mode = "counterflux-qa"
+					prefixedPrompt = `[QA AGENT TASK]\n\n${prompt}\n\nFocus on: test specifications, test cases, edge cases, validation, and quality assurance.`
+				} else if (targetDev) {
+					// Dev only - switch to counterflux-dev mode  
+					mode = "counterflux-dev"
+					prefixedPrompt = `[DEVELOPER AGENT TASK]\n\n${prompt}\n\nFocus on: implementation, coding, feature development, and making tests pass.`
+				}
+
+				// Switch mode if needed
+				if (mode) {
+					await provider.setMode(mode)
+					await provider.postStateToWebview()
+				}
+
+				// Send status updates to UI
+				if (targetQa) {
+					await provider.postMessageToWebview({
+						type: "parralel:qa:status",
+						status: "thinking",
+					} as any)
 					await provider.postMessageToWebview({
 						type: "parralel:qa:log",
-						logType: "success",
-						message: "Analysis complete. Ready for next instruction.",
+						logType: "cmd",
+						message: `> Starting AI analysis...`,
+					} as any)
+				}
+				if (targetDev) {
+					await provider.postMessageToWebview({
+						type: "parralel:dev:status",
+						status: "thinking",
+					} as any)
+					await provider.postMessageToWebview({
+						type: "parralel:dev:log",
+						logType: "cmd",
+						message: `> Starting AI implementation...`,
+					} as any)
+				}
+
+				// Actually create the AI task! This starts the real LLM processing.
+				const task = await provider.createTask(prefixedPrompt)
+
+				provider.log(`[Adversarial Studio] Created task ${task.taskId} for prompt`)
+
+				// The task is now running - the UI will be updated through the normal chat flow
+				// Switch back to chat tab to show the AI working
+				await provider.postMessageToWebview({
+					type: "action",
+					action: "switchTab",
+					tab: "chat",
+				})
+
+			} catch (error) {
+				provider.log(`[Adversarial Studio] Error creating task: ${error}`)
+
+				// Send error to UI
+				const errorMessage = error instanceof Error ? error.message : String(error)
+				if (targetQa) {
+					await provider.postMessageToWebview({
+						type: "parralel:qa:log",
+						logType: "error",
+						message: `Error: ${errorMessage}`,
 					} as any)
 					await provider.postMessageToWebview({
 						type: "parralel:qa:status",
 						status: "idle",
 					} as any)
-				}, 2000)
-			}
-
-			if (targetDev) {
-				await provider.postMessageToWebview({
-					type: "parralel:dev:status",
-					status: "thinking",
-				} as any)
-				await provider.postMessageToWebview({
-					type: "parralel:dev:log",
-					logType: "info",
-					message: "Processing request...",
-				} as any)
-				// Simulate Dev work (in real impl, this would call the agent)
-				setTimeout(async () => {
+				}
+				if (targetDev) {
 					await provider.postMessageToWebview({
 						type: "parralel:dev:log",
-						logType: "success",
-						message: "Implementation complete. Ready for next instruction.",
+						logType: "error",
+						message: `Error: ${errorMessage}`,
 					} as any)
 					await provider.postMessageToWebview({
 						type: "parralel:dev:status",
 						status: "idle",
 					} as any)
-				}, 2500)
+				}
 			}
 			break
 		}
