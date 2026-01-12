@@ -83,8 +83,8 @@ function deepMerge(target: any, source: any): any {
 export function getKiloToken(config: CLIConfig) {
 	const kiloProvider = config.providers.find((p) => p.provider === "kilocode")
 
-	if (kiloProvider && "kilocodeToken" in kiloProvider) {
-		return kiloProvider.kilocodeToken
+	if (kiloProvider && "counterfluxToken" in kiloProvider) {
+		return kiloProvider.counterfluxToken
 	}
 
 	return null

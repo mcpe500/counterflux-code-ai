@@ -2,7 +2,7 @@ import { z } from "zod"
 
 declare global {
 	interface Window {
-		KILOCODE_BACKEND_BASE_URL: string | undefined
+		COUNTERFLUX_BACKEND_BASE_URL: string | undefined
 	}
 }
 
@@ -59,7 +59,7 @@ export function getKiloBaseUriFromToken(kilocodeToken?: string) {
 				typeof atob !== "undefined" ? atob(payload_string) : Buffer.from(payload_string, "base64").toString()
 			const payload = JSON.parse(payload_json)
 			//note: this is UNTRUSTED, so we need to make sure we're OK with this being manipulated by an attacker; e.g. we should not read uri's from the JWT directly.
-			// For dev tokens, check if KILOCODE_BACKEND_BASE_URL is set to a custom value
+			// For dev tokens, check if COUNTERFLUX_BACKEND_BASE_URL is set to a custom value
 			if (payload.env === "development") {
 				const baseUrl = getGlobalKilocodeBackendUrl()
 				// This allows pointing to custom dev backends beyond just those accessible on localhost
@@ -97,8 +97,8 @@ export function getKiloUrlFromToken(targetUrl: string, kilocodeToken?: string): 
 
 function getGlobalKilocodeBackendUrl(): string {
 	return (
-		(typeof window !== "undefined" ? window.KILOCODE_BACKEND_BASE_URL : undefined) ||
-		process.env.KILOCODE_BACKEND_BASE_URL ||
+		(typeof window !== "undefined" ? window.COUNTERFLUX_BACKEND_BASE_URL : undefined) ||
+		process.env.COUNTERFLUX_BACKEND_BASE_URL ||
 		DEFAULT_KILOCODE_BACKEND_URL
 	)
 }
@@ -114,7 +114,7 @@ export function getAppUrl(path: string = ""): string {
 
 /**
  * Gets the API URL for the current environment.
- * Respects KILOCODE_BACKEND_BASE_URL environment variable for local development.
+ * Respects COUNTERFLUX_BACKEND_BASE_URL environment variable for local development.
  * In development: http://localhost:3000
  * In production: https://api.kilo.ai
  */

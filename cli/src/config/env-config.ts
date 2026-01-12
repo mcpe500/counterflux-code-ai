@@ -282,21 +282,21 @@ function applyCoreOverrides(config: CLIConfig): CLIConfig {
 
 /**
  * Get all environment variable overrides for the current provider
- * - For Kilocode provider: looks for KILOCODE_* vars and transforms to kilocodeXyz
+ * - For Kilocode provider: looks for COUNTERFLUX_* vars and transforms to counterfluxXyz
  * - For other providers: looks for KILO_* vars (excluding specific vars) and transforms to xyzAbc
  * Returns an array of { fieldName, value } objects
  */
 function getProviderOverrideFields(provider: string): Array<{ fieldName: string; value: string }> {
-	const overrides: Array<{ fieldName: string; value: string }> = []
+ const overrides: Array<{ fieldName: string; value: string }> = []
 
-	if (provider === "kilocode") {
-		// For Kilocode provider: KILOCODE_XYZ → kilocodeXyz
-		for (const [key, value] of Object.entries(process.env)) {
-			if (key.startsWith(KILOCODE_PREFIX) && value) {
-				overrides.push({ fieldName: snakeToCamelCase(key), value })
-			}
-		}
-	} else {
+ if (provider === "kilocode") {
+ 	// For Kilocode provider: COUNTERFLUX_XYZ → counterfluxXyz
+ 	for (const [key, value] of Object.entries(process.env)) {
+ 		if (key.startsWith(KILOCODE_PREFIX) && value) {
+ 			overrides.push({ fieldName: snakeToCamelCase(key), value })
+ 		}
+ 	}
+ } else {
 		// For other providers: KILO_XYZ_ABC → xyzAbc
 		for (const [key, value] of Object.entries(process.env)) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -322,7 +322,7 @@ function getProviderOverrideFields(provider: string): Array<{ fieldName: string;
  * This is critical because validation happens immediately after config creation, so all
  * required fields must be present before validation runs.
  *
- * For Kilocode provider: KILOCODE_* vars → kilocodeXyz fields
+ * For Kilocode provider: COUNTERFLUX_* vars → counterfluxXyz fields
  * For other providers: KILO_* vars → xyzAbc fields
  */
 function buildProviderFromEnv(providerType: string): ProviderConfig {
@@ -396,10 +396,10 @@ export function buildConfigFromEnv(): CLIConfig | null {
  * - KILO_TELEMETRY: Override telemetry setting (true/false)
  * - KILO_THEME: Override the UI theme
  * - KILO_AUTO_APPROVAL_*: Override auto-approval settings
- * - For Kilocode provider: KILOCODE_<FIELD_NAME> (e.g., KILOCODE_MODEL → kilocodeModel)
+ * - For Kilocode provider: COUNTERFLUX_<FIELD_NAME> (e.g., COUNTERFLUX_MODEL → counterfluxModel)
  *   Examples:
- *   - KILOCODE_MODEL → kilocodeModel
- *   - KILOCODE_ORGANIZATION_ID → kilocodeOrganizationId
+ *   - COUNTERFLUX_MODEL → counterfluxModel
+ *   - COUNTERFLUX_ORGANIZATION_ID → counterfluxOrganizationId
  * - For other providers: KILO_<FIELD_NAME> (e.g., KILO_API_KEY → apiKey)
  *   Examples:
  *   - KILO_API_KEY → apiKey

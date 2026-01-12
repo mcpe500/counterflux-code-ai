@@ -1,6 +1,4 @@
-# Welcome to the Kilocode Project
-
-See [the Documentation for details on contributing](https://kilo.ai/docs/extending/contributing-to-kilo)
+# Welcome to the Counterflux Code AI Project
 
 ## TL;DR
 
@@ -13,4 +11,3 @@ There are lots of ways to contribute to the project
 - **Feature Requests:** Suggest new features or improvements
 - **Community Support:** Help other users in the community
 
-The Kilocode Community is [on Discord](https://kilo.ai/discord)

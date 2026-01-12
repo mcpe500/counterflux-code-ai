@@ -3,11 +3,11 @@ import * as path from "path"
 import * as fs from "fs"
 
 /**
- * Centralized path management for Kilo Code CLI
- * All configuration and logs are stored in ~/.kilocode/
+ * Centralized path management for Counterflux Code AI CLI
+ * All configuration and logs are stored in ~/.counterflux/
  */
 export class KiloCodePaths {
-	private static readonly BASE_DIR_NAME = ".kilocode"
+ private static readonly BASE_DIR_NAME = ".counterflux"
 	private static readonly CLI_SUBDIR = "cli"
 	private static readonly WORKSPACE_MAP_FILE = "workspace-map.json"
 

@@ -63,7 +63,7 @@ export const globalSettingsSchema = z.object({
 	imageGenerationProvider: z.enum(["openrouter", "kilocode"]).optional(), // kilocode_change: Updated from "roo" to "kilocode"
 	openRouterImageApiKey: z.string().optional(),
 	openRouterImageGenerationSelectedModel: z.string().optional(),
-	kiloCodeImageApiKey: z.string().optional(),
+	counterfluxCodeImageApiKey: z.string().optional(),
 
 	condensingApiConfigId: z.string().optional(),
 	customCondensingPrompt: z.string().optional(),
@@ -281,7 +281,7 @@ export const SECRET_STATE_KEYS = [
 	"codeIndexQdrantApiKey",
 	// kilocode_change start
 	"minimaxApiKey",
-	"kilocodeToken",
+	"counterfluxToken",
 	"syntheticApiKey",
 	"ovhCloudAiEndpointsApiKey",
 	"inceptionLabsApiKey",
@@ -305,7 +305,7 @@ export const SECRET_STATE_KEYS = [
 // Global secrets that are part of GlobalSettings (not ProviderSettings)
 export const GLOBAL_SECRET_KEYS = [
 	"openRouterImageApiKey", // For image generation
-	"kiloCodeImageApiKey",
+	"counterfluxCodeImageApiKey",
 ] as const
 
 // Type for the actual secret storage keys

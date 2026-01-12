@@ -114,14 +114,14 @@ interface BaseProviderConfig {
 // Provider-specific configurations with discriminated unions
 type KilocodeProviderConfig = BaseProviderConfig & {
 	provider: "kilocode"
-	kilocodeModel?: string
-	kilocodeToken?: string
-	kilocodeOrganizationId?: string
+	counterfluxModel?: string
+	counterfluxToken?: string
+	counterfluxOrganizationId?: string
 	openRouterSpecificProvider?: string
 	openRouterProviderDataCollection?: "allow" | "deny"
 	openRouterProviderSort?: "price" | "throughput" | "latency"
 	openRouterZdr?: boolean
-	kilocodeTesterWarningsDisabledUntil?: number
+	counterfluxTesterWarningsDisabledUntil?: number
 }
 
 type AnthropicProviderConfig = BaseProviderConfig & {

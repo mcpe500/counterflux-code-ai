@@ -1,12 +1,13 @@
 {
-	"name": "@kilocode/cli",
+	"name": "@counterflux/cli",
 	"version": "0.18.0",
-	"description": "Terminal User Interface for Kilo Code",
+	"description": "Terminal User Interface for Counterflux Code AI",
 	"type": "module",
 	"main": "dist/index.js",
 	"bin": {
-		"kilocode": "dist/index.js",
-		"kilo": "dist/index.js"
+		"counterflux-code-ai": "dist/index.js",
+		"counterflux": "dist/index.js",
+		"cf": "dist/index.js"
 	},
 	"scripts": {
 		"build": "node esbuild.config.mjs",
@@ -24,10 +25,10 @@
 		"test:integration:verbose": "VERBOSE=true pnpm test:integration",
 		"check-types": "tsc --noEmit",
 		"format": "prettier --write src",
-		"logs": "clear && tail -f ~/.kilocode/cli/logs/cli.txt",
-		"logs:clear": "rimraf ~/.kilocode/cli/logs/* && touch ~/.kilocode/cli/logs/cli.txt",
-		"clean:kilocode": "npx del-cli ./dist/kilocode --force && npx mkdirp ./dist/kilocode",
-		"copy:kilocode": "node scripts/copy-extension.mjs",
+		"logs": "clear && tail -f ~/.counterflux/cli/logs/cli.txt",
+		"logs:clear": "rimraf ~/.counterflux/cli/logs/* && touch ~/.counterflux/cli/logs/cli.txt",
+		"clean:counterflux": "npx del-cli ./dist/counterflux --force && npx mkdirp ./dist/counterflux",
+		"copy:counterflux": "node scripts/copy-extension.mjs",
 		"lint": "eslint .",
 		"changeset:version": "jq --arg version \"$(jq -r '.version' package.json)\" '.version = $version' package.dist.json > tmp.json && mv tmp.json package.dist.json && prettier --write package.dist.json"
 	},
@@ -178,7 +179,7 @@
 		"terminal",
 		"ai",
 		"assistant",
-		"kilo-code",
+		"counterflux-code-ai",
 		"ink",
 		"react"
 	]

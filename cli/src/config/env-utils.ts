@@ -36,9 +36,9 @@ export const ENV_VARS = {
 } as const
 
 /**
- * Environment variable prefix for Kilocode provider
+ * Environment variable prefix for Counterflux Code AI provider
  */
-export const KILOCODE_PREFIX = "KILOCODE_"
+export const KILOCODE_PREFIX = "COUNTERFLUX_"
 
 /**
  * Environment variable prefix for other providers
