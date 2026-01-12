@@ -846,29 +846,29 @@ export const webviewMessageHandler = async (
 			const routerModels: Record<RouterName, ModelRecord> = providerFilter
 				? ({} as Record<RouterName, ModelRecord>)
 				: {
-					// kilocode_change start
-					ovhcloud: {},
-					inception: {},
-					kilocode: {},
-					gemini: {},
-					// kilocode_change end
-					openrouter: {},
-					"vercel-ai-gateway": {},
-					huggingface: {},
-					litellm: {},
-					deepinfra: {},
-					"io-intelligence": {},
-					requesty: {},
-					unbound: {},
-					glama: {}, // kilocode_change
-					ollama: {},
-					lmstudio: {},
-					roo: {},
-					synthetic: {}, // kilocode_change
-					"sap-ai-core": {}, // kilocode_change
-					chutes: {},
-					"nano-gpt": {}, // kilocode_change
-				}
+						// kilocode_change start
+						ovhcloud: {},
+						inception: {},
+						kilocode: {},
+						gemini: {},
+						// kilocode_change end
+						openrouter: {},
+						"vercel-ai-gateway": {},
+						huggingface: {},
+						litellm: {},
+						deepinfra: {},
+						"io-intelligence": {},
+						requesty: {},
+						unbound: {},
+						glama: {}, // kilocode_change
+						ollama: {},
+						lmstudio: {},
+						roo: {},
+						synthetic: {}, // kilocode_change
+						"sap-ai-core": {}, // kilocode_change
+						chutes: {},
+						"nano-gpt": {}, // kilocode_change
+					}
 
 			const safeGetModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
 				try {
@@ -2356,10 +2356,10 @@ export const webviewMessageHandler = async (
 							const existingMode = existingModes.find((mode) => mode.slug === message.modeConfig?.slug)
 							const changedSettings = existingMode
 								? Object.keys(message.modeConfig).filter(
-									(key) =>
-										JSON.stringify((existingMode as Record<string, unknown>)[key]) !==
-										JSON.stringify((message.modeConfig as Record<string, unknown>)[key]),
-								)
+										(key) =>
+											JSON.stringify((existingMode as Record<string, unknown>)[key]) !==
+											JSON.stringify((message.modeConfig as Record<string, unknown>)[key]),
+									)
 								: []
 
 							if (changedSettings.length > 0) {
@@ -3260,13 +3260,13 @@ export const webviewMessageHandler = async (
 			const status = manager
 				? manager.getCurrentStatus()
 				: {
-					systemStatus: "Standby",
-					message: "No workspace folder open",
-					processedItems: 0,
-					totalItems: 0,
-					currentItemUnit: "items",
-					workspacePath: undefined,
-				}
+						systemStatus: "Standby",
+						message: "No workspace folder open",
+						processedItems: 0,
+						totalItems: 0,
+						currentItemUnit: "items",
+						workspacePath: undefined,
+					}
 
 			provider.postMessageToWebview({
 				type: "indexingStatusUpdate",
@@ -4250,225 +4250,6 @@ export const webviewMessageHandler = async (
 			break
 		}
 		// kilocode_change end
-
-		// kilocode_change start - Parralel Mode handlers
-		case "parralel:start": {
-			// Initialize parallel mode and start workflow
-			provider.log(`[Adversarial Studio] Starting with prompt: ${message.prompt}`)
-			await provider.postMessageToWebview({
-				type: "parralel:orchestrator:status",
-				status: "running",
-			} as any)
-			// Send initial log to QA
-			await provider.postMessageToWebview({
-				type: "parralel:qa:log",
-				logType: "info",
-				message: "Analyzing task and generating specifications...",
-			} as any)
-			break
-		}
-		case "parralel:unified:send": {
-			// counterflux_change: Handle unified send with @mentions - Actually create AI task!
-			const { prompt, targetQa, targetDev } = message
-			provider.log(`[Adversarial Studio] Unified send - QA: ${targetQa}, Dev: ${targetDev}, Prompt: ${prompt}`)
-
-			try {
-				// Determine which mode to use based on targets
-				let mode: string | undefined
-				let prefixedPrompt = prompt
-
-				if (targetQa && targetDev) {
-					// Both agents - use default mode with a combined prompt
-					mode = undefined // Use current mode
-					prefixedPrompt = `[ADVERSARIAL MODE] Both QA and Developer agents are tasked with:\n\n${prompt}\n\nQA Agent: Focus on testing, spec creation, and verification. Developer Agent: Focus on implementation.`
-				} else if (targetQa) {
-					// QA only - switch to counterflux-qa mode
-					mode = "counterflux-qa"
-					prefixedPrompt = `[QA AGENT TASK]\n\n${prompt}\n\nFocus on: test specifications, test cases, edge cases, validation, and quality assurance.`
-				} else if (targetDev) {
-					// Dev only - switch to counterflux-dev mode  
-					mode = "counterflux-dev"
-					prefixedPrompt = `[DEVELOPER AGENT TASK]\n\n${prompt}\n\nFocus on: implementation, coding, feature development, and making tests pass.`
-				}
-
-				// Switch mode if needed
-				if (mode) {
-					await provider.setMode(mode)
-					await provider.postStateToWebview()
-				}
-
-				// Send status updates to UI
-				if (targetQa) {
-					await provider.postMessageToWebview({
-						type: "parralel:qa:status",
-						status: "thinking",
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:qa:log",
-						logType: "cmd",
-						message: `> Starting AI analysis...`,
-					} as any)
-				}
-				if (targetDev) {
-					await provider.postMessageToWebview({
-						type: "parralel:dev:status",
-						status: "thinking",
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:dev:log",
-						logType: "cmd",
-						message: `> Starting AI implementation...`,
-					} as any)
-				}
-
-				// Actually create the AI task! This starts the real LLM processing.
-				const task = await provider.createTask(prefixedPrompt)
-
-				provider.log(`[Adversarial Studio] Created task ${task.taskId} for prompt`)
-
-				// Send task ID to Studio for tracking
-				await provider.postMessageToWebview({
-					type: "parralel:task:created",
-					taskId: task.taskId,
-					targetQa,
-					targetDev,
-				} as any)
-
-				// IMPORTANT: Trigger the UI to actually show and process the task
-				await provider.postMessageToWebview({ type: "invoke", invoke: "newChat" })
-
-				// Update logs to show task is running - user stays in Studio!
-				if (targetQa) {
-					await provider.postMessageToWebview({
-						type: "parralel:qa:log",
-						logType: "success",
-						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:qa:log",
-						logType: "info",
-						message: `AI is working... Updates will appear here.`,
-					} as any)
-				}
-				if (targetDev) {
-					await provider.postMessageToWebview({
-						type: "parralel:dev:log",
-						logType: "success",
-						message: `Task started! ID: ${task.taskId.substring(0, 8)}...`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:dev:log",
-						logType: "info",
-						message: `AI is working... Updates will appear here.`,
-					} as any)
-				}
-
-				// NOTE: We DON'T switch tabs - user stays in Adversarial Studio
-				// The Studio will receive clineMessage updates and show AI progress
-
-			} catch (error) {
-				provider.log(`[Adversarial Studio] Error creating task: ${error}`)
-
-				// Send error to UI
-				const errorMessage = error instanceof Error ? error.message : String(error)
-				if (targetQa) {
-					await provider.postMessageToWebview({
-						type: "parralel:qa:log",
-						logType: "error",
-						message: `Error: ${errorMessage}`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:qa:status",
-						status: "idle",
-					} as any)
-				}
-				if (targetDev) {
-					await provider.postMessageToWebview({
-						type: "parralel:dev:log",
-						logType: "error",
-						message: `Error: ${errorMessage}`,
-					} as any)
-					await provider.postMessageToWebview({
-						type: "parralel:dev:status",
-						status: "idle",
-					} as any)
-				}
-			}
-			break
-		}
-		case "parralel:qa:send": {
-			provider.log(`[Adversarial Studio] QA message: ${message.message}`)
-			await provider.postMessageToWebview({
-				type: "parralel:qa:log",
-				logType: "info",
-				message: `Processing: ${message.message}`,
-			} as any)
-			break
-		}
-		case "parralel:dev:send": {
-			provider.log(`[Adversarial Studio] Dev message: ${message.message}`)
-			await provider.postMessageToWebview({
-				type: "parralel:dev:log",
-				logType: "info",
-				message: `Processing: ${message.message}`,
-			} as any)
-			break
-		}
-		case "parralel:spec:freeze": {
-			provider.log("[Adversarial Studio] Freezing spec")
-			await provider.postMessageToWebview({
-				type: "parralel:spec:updated",
-				status: "frozen",
-			} as any)
-			await provider.postMessageToWebview({
-				type: "parralel:qa:log",
-				logType: "success",
-				message: "SPEC frozen. Now generating test cases...",
-			} as any)
-			await provider.postMessageToWebview({
-				type: "parralel:dev:log",
-				logType: "info",
-				message: "SPEC frozen. Ready to implement.",
-			} as any)
-			break
-		}
-		case "parralel:spec:lock": {
-			provider.log("[Adversarial Studio] Locking spec")
-			await provider.postMessageToWebview({
-				type: "parralel:spec:updated",
-				status: "locked",
-			} as any)
-			break
-		}
-		case "parralel:mode:toggle": {
-			provider.log(`[Adversarial Studio] Mode toggle: ${message.isParralel}`)
-			break
-		}
-		case "parralel:pause": {
-			provider.log("[Adversarial Studio] Pausing workflow")
-			await provider.postMessageToWebview({
-				type: "parralel:orchestrator:status",
-				status: "paused",
-			} as any)
-			break
-		}
-		case "parralel:resume": {
-			provider.log("[Adversarial Studio] Resuming workflow")
-			await provider.postMessageToWebview({
-				type: "parralel:orchestrator:status",
-				status: "running",
-			} as any)
-			break
-		}
-		case "parralel:abort": {
-			provider.log("[Adversarial Studio] Aborting workflow")
-			await provider.postMessageToWebview({
-				type: "parralel:orchestrator:status",
-				status: "idle",
-			} as any)
-			break
-		}
-		// kilocode_change end - Parralel Mode handlers
 		default: {
 			// console.log(`Unhandled message type: ${message.type}`)
 			//

@@ -1,8 +1,8 @@
 {
-	"name": "counterflux-ai",
+	"name": "kilo-code",
 	"displayName": "%extension.displayName%",
 	"description": "%extension.description%",
-	"publisher": "counterflux",
+	"publisher": "kilocode",
 	"version": "4.140.3",
 	"icon": "assets/icons/logo-outline-black.png",
 	"galleryBanner": {
@@ -17,7 +17,7 @@
 		"workspace"
 	],
 	"author": {
-		"name": "Counterflux AI"
+		"name": "Kilo Code"
 	},
 	"repository": {
 		"type": "git",
@@ -56,14 +56,14 @@
 	"contributes": {
 		"walkthroughs": [
 			{
-				"id": "counterfluxAIWalkthrough",
-				"title": "5 ways Counterflux AI helps you code",
+				"id": "kiloCodeWalkthrough",
+				"title": "5 ways Kilo Code helps you code",
 				"description": "You now have a personal AI coding assistant.",
 				"steps": [
 					{
 						"id": "welcome",
 						"title": "Write code for you",
-						"description": "Describe what you want to build. Counterflux AI will write it from scratch, generate the files, and run them for you.",
+						"description": "Describe what you want to build. Kilo Code will write it from scratch, generate the files, and run them for you.",
 						"media": {
 							"markdown": "./dist/walkthrough/step1.md"
 						}
@@ -71,7 +71,7 @@
 					{
 						"id": "getting-started",
 						"title": "Understand your codebase",
-						"description": "Need clarity on how something works? Ask Counterflux AI about any part of your files and get a clear explanation.",
+						"description": "Need clarity on how something works? Ask Kilo Code about any part of your files and get a clear explanation.",
 						"media": {
 							"markdown": "./dist/walkthrough/step2.md"
 						},
@@ -82,7 +82,7 @@
 					{
 						"id": "modes",
 						"title": "Get things working again",
-						"description": "Stuck on an error? Counterflux AI can find the issue, fix it, and get your code running.",
+						"description": "Stuck on an error? Kilo Code can find the issue, fix it, and get your code running.",
 						"media": {
 							"markdown": "./dist/walkthrough/step3.md"
 						}
@@ -109,7 +109,7 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "counterflux-ai-ActivityBar",
+					"id": "kilo-code-ActivityBar",
 					"title": "%views.activitybar.title%",
 					"icon": "assets/icons/kilo.png",
 					"darkIcon": "assets/icons/kilo-dark.png"
@@ -117,10 +117,10 @@
 			]
 		},
 		"views": {
-			"counterflux-ai-ActivityBar": [
+			"kilo-code-ActivityBar": [
 				{
 					"type": "webview",
-					"id": "counterflux-ai.SidebarProvider",
+					"id": "kilo-code.SidebarProvider",
 					"name": "%views.sidebar.name%",
 					"icon": "assets/icons/kilo.png",
 					"darkIcon": "assets/icons/kilo-dark.png"
@@ -129,133 +129,133 @@
 		},
 		"commands": [
 			{
-				"command": "counterflux-ai.plusButtonClicked",
+				"command": "kilo-code.plusButtonClicked",
 				"title": "%command.newTask.title%",
 				"icon": "$(add)"
 			},
 			{
-				"command": "counterflux-ai.mcpButtonClicked",
+				"command": "kilo-code.mcpButtonClicked",
 				"title": "%command.mcpServers.title%",
 				"icon": "$(server)"
 			},
 			{
-				"command": "counterflux-ai.importSettings",
+				"command": "kilo-code.importSettings",
 				"title": "%command.importSettings.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.exportSettings",
+				"command": "kilo-code.exportSettings",
 				"title": "Export Settings",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.promptsButtonClicked",
+				"command": "kilo-code.promptsButtonClicked",
 				"title": "%command.prompts.title%",
 				"icon": "$(organization)"
 			},
 			{
-				"command": "counterflux-ai.historyButtonClicked",
+				"command": "kilo-code.historyButtonClicked",
 				"title": "%command.history.title%",
 				"icon": "$(history)"
 			},
 			{
-				"command": "counterflux-ai.marketplaceButtonClicked",
+				"command": "kilo-code.marketplaceButtonClicked",
 				"title": "%command.marketplace.title%",
 				"icon": "$(extensions)"
 			},
 			{
-				"command": "counterflux-ai.popoutButtonClicked",
+				"command": "kilo-code.popoutButtonClicked",
 				"title": "%command.openInEditor.title%",
 				"icon": "$(link-external)"
 			},
 			{
-				"command": "counterflux-ai.settingsButtonClicked",
+				"command": "kilo-code.settingsButtonClicked",
 				"title": "%command.settings.title%",
 				"icon": "$(settings-gear)"
 			},
 			{
-				"command": "counterflux-ai.helpButtonClicked",
+				"command": "kilo-code.helpButtonClicked",
 				"title": "%command.documentation.title%",
 				"icon": "$(question)"
 			},
 			{
-				"command": "counterflux-ai.openInNewTab",
+				"command": "kilo-code.openInNewTab",
 				"title": "%command.openInNewTab.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.explainCode",
+				"command": "kilo-code.explainCode",
 				"title": "%command.explainCode.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.fixCode",
+				"command": "kilo-code.fixCode",
 				"title": "%command.fixCode.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.improveCode",
+				"command": "kilo-code.improveCode",
 				"title": "%command.improveCode.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.addToContext",
+				"command": "kilo-code.addToContext",
 				"title": "%command.addToContext.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.addToContextAndFocus",
+				"command": "kilo-code.addToContextAndFocus",
 				"title": "Add to Context and Focus",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.newTask",
+				"command": "kilo-code.newTask",
 				"title": "%command.newTask.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.terminalAddToContext",
+				"command": "kilo-code.terminalAddToContext",
 				"title": "%command.terminal.addToContext.title%",
 				"category": "%extension.displayName%"
 			},
 			{
-				"command": "counterflux-ai.terminalFixCommand",
+				"command": "kilo-code.terminalFixCommand",
 				"title": "%command.terminal.fixCommand.title%",
 				"category": "%extension.displayName%"
 			},
 			{
-				"command": "counterflux-ai.terminalExplainCommand",
+				"command": "kilo-code.terminalExplainCommand",
 				"title": "%command.terminal.explainCommand.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.generateTerminalCommand",
+				"command": "kilo-code.generateTerminalCommand",
 				"title": "%command.terminal.generateCommand.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.setCustomStoragePath",
+				"command": "kilo-code.setCustomStoragePath",
 				"title": "%command.setCustomStoragePath.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.focusChatInput",
+				"command": "kilo-code.focusChatInput",
 				"title": "%command.focusInput.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.acceptInput",
+				"command": "kilo-code.acceptInput",
 				"title": "%command.acceptInput.title%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.profileButtonClicked",
+				"command": "kilo-code.profileButtonClicked",
 				"title": "%command.profile.title%",
 				"icon": "$(account)",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.vsc.generateCommitMessage",
+				"command": "kilo-code.vsc.generateCommitMessage",
 				"title": "%command.generateCommitMessage.title%",
 				"icon": {
 					"light": "assets/icons/kilo-light.svg",
@@ -264,37 +264,37 @@
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.generateSuggestions",
+				"command": "kilo-code.ghost.generateSuggestions",
 				"title": "%ghost.commands.generateSuggestions%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.cancelSuggestions",
+				"command": "kilo-code.ghost.cancelSuggestions",
 				"title": "%ghost.commands.cancelSuggestions%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.applyCurrentSuggestions",
+				"command": "kilo-code.ghost.applyCurrentSuggestions",
 				"title": "%ghost.commands.applyCurrentSuggestion%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.applyAllSuggestions",
+				"command": "kilo-code.ghost.applyAllSuggestions",
 				"title": "%ghost.commands.applyAllSuggestions%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.goToNextSuggestion",
+				"command": "kilo-code.ghost.goToNextSuggestion",
 				"title": "%ghost.commands.goToNextSuggestion%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.ghost.goToPreviousSuggestion",
+				"command": "kilo-code.ghost.goToPreviousSuggestion",
 				"title": "%ghost.commands.goToPreviousSuggestion%",
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "counterflux-ai.agentManagerOpen",
+				"command": "kilo-code.agentManagerOpen",
 				"title": "Open Agent Manager",
 				"icon": "$(circuit-board)",
 				"category": "%configuration.title%"
@@ -303,136 +303,136 @@
 		"menus": {
 			"editor/context": [
 				{
-					"submenu": "counterflux-ai.contextMenu",
+					"submenu": "kilo-code.contextMenu",
 					"group": "1"
 				}
 			],
-			"counterflux-ai.contextMenu": [
+			"kilo-code.contextMenu": [
 				{
-					"command": "counterflux-ai.explainCode",
+					"command": "kilo-code.explainCode",
 					"group": "1_actions@1"
 				},
 				{
-					"command": "counterflux-ai.fixCode",
+					"command": "kilo-code.fixCode",
 					"group": "1_actions@2"
 				},
 				{
-					"command": "counterflux-ai.improveCode",
+					"command": "kilo-code.improveCode",
 					"group": "1_actions@3"
 				},
 				{
-					"command": "counterflux-ai.addToContext",
+					"command": "kilo-code.addToContext",
 					"group": "1_actions@4"
 				}
 			],
 			"terminal/context": [
 				{
-					"submenu": "counterflux-ai.terminalMenu",
+					"submenu": "kilo-code.terminalMenu",
 					"group": "2"
 				}
 			],
-			"counterflux-ai.terminalMenu": [
+			"kilo-code.terminalMenu": [
 				{
-					"command": "counterflux-ai.terminalAddToContext",
+					"command": "kilo-code.terminalAddToContext",
 					"group": "1_actions@1"
 				},
 				{
-					"command": "counterflux-ai.terminalFixCommand",
+					"command": "kilo-code.terminalFixCommand",
 					"group": "1_actions@2"
 				},
 				{
-					"command": "counterflux-ai.terminalExplainCommand",
+					"command": "kilo-code.terminalExplainCommand",
 					"group": "1_actions@3"
 				}
 			],
 			"view/title": [
 				{
-					"command": "counterflux-ai.plusButtonClicked",
+					"command": "kilo-code.plusButtonClicked",
 					"group": "navigation@0",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.agentManagerOpen",
+					"command": "kilo-code.agentManagerOpen",
 					"group": "navigation@1",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.mcpButtonClicked",
+					"command": "kilo-code.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.marketplaceButtonClicked",
+					"command": "kilo-code.marketplaceButtonClicked",
 					"group": "navigation@3",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.historyButtonClicked",
+					"command": "kilo-code.historyButtonClicked",
 					"group": "navigation@4",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.profileButtonClicked",
+					"command": "kilo-code.profileButtonClicked",
 					"group": "navigation@5",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.settingsButtonClicked",
+					"command": "kilo-code.settingsButtonClicked",
 					"group": "navigation@6",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.popoutButtonClicked",
+					"command": "kilo-code.popoutButtonClicked",
 					"group": "navigation@7",
-					"when": "view == counterflux-ai.SidebarProvider"
+					"when": "view == kilo-code.SidebarProvider"
 				},
 				{
-					"command": "counterflux-ai.helpButtonClicked",
+					"command": "kilo-code.helpButtonClicked",
 					"group": "navigation@8",
-					"when": "false && view == counterflux-ai.SidebarProvider"
+					"when": "false && view == kilo-code.SidebarProvider"
 				}
 			],
 			"editor/title": [
 				{
-					"command": "counterflux-ai.plusButtonClicked",
+					"command": "kilo-code.plusButtonClicked",
 					"group": "navigation@1",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{
-					"command": "counterflux-ai.mcpButtonClicked",
+					"command": "kilo-code.mcpButtonClicked",
 					"group": "navigation@2",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{
-					"command": "counterflux-ai.historyButtonClicked",
+					"command": "kilo-code.historyButtonClicked",
 					"group": "navigation@3",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{
-					"command": "counterflux-ai.popoutButtonClicked",
+					"command": "kilo-code.popoutButtonClicked",
 					"group": "navigation@4",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{
-					"command": "counterflux-ai.settingsButtonClicked",
+					"command": "kilo-code.settingsButtonClicked",
 					"group": "navigation@5",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				},
 				{
-					"command": "counterflux-ai.helpButtonClicked",
+					"command": "kilo-code.helpButtonClicked",
 					"group": "navigation@6",
-					"when": "activeWebviewPanelId == counterflux-ai.TabPanelProvider"
+					"when": "activeWebviewPanelId == kilo-code.TabPanelProvider"
 				}
 			],
 			"scm/input": [
 				{
-					"command": "counterflux-ai.vsc.generateCommitMessage",
+					"command": "kilo-code.vsc.generateCommitMessage",
 					"group": "navigation"
 				}
 			],
 			"scm/title": [
 				{
-					"command": "counterflux-ai.vsc.generateCommitMessage",
+					"command": "kilo-code.vsc.generateCommitMessage",
 					"when": "scmProvider == git",
 					"group": "navigation"
 				}
@@ -440,35 +440,35 @@
 		},
 		"keybindings": [
 			{
-				"command": "counterflux-ai.focusChatInput",
+				"command": "kilo-code.focusChatInput",
 				"key": "ctrl+shift+a",
 				"mac": "cmd+shift+a",
 				"when": "true"
 			},
 			{
-				"command": "counterflux-ai.ghost.cancelSuggestions",
+				"command": "kilo-code.ghost.cancelSuggestions",
 				"key": "escape",
 				"when": "editorTextFocus && !editorTabMovesFocus && !inSnippetMode && kilocode.ghost.hasSuggestions"
 			},
 			{
-				"command": "counterflux-ai.ghost.generateSuggestions",
+				"command": "kilo-code.ghost.generateSuggestions",
 				"key": "ctrl+l",
 				"mac": "cmd+l",
 				"when": "editorTextFocus && !editorTabMovesFocus && !inSnippetMode && kilocode.ghost.enableSmartInlineTaskKeybinding && !github.copilot.completions.enabled"
 			},
 			{
-				"command": "counterflux-ai.ghost.showIncompatibilityExtensionPopup",
+				"command": "kilo-code.ghost.showIncompatibilityExtensionPopup",
 				"key": "ctrl+l",
 				"mac": "cmd+l",
 				"when": "editorTextFocus && !editorTabMovesFocus && !inSnippetMode && kilocode.ghost.enableSmartInlineTaskKeybinding && github.copilot.completions.enabled"
 			},
 			{
-				"command": "counterflux-ai.generateTerminalCommand",
+				"command": "kilo-code.generateTerminalCommand",
 				"key": "ctrl+shift+g",
 				"mac": "cmd+shift+g"
 			},
 			{
-				"command": "counterflux-ai.addToContext",
+				"command": "kilo-code.addToContext",
 				"key": "cmd+k cmd+a",
 				"mac": "cmd+k cmd+a",
 				"win": "ctrl+k ctrl+a",
@@ -476,7 +476,7 @@
 				"when": "editorTextFocus && editorHasSelection"
 			},
 			{
-				"command": "counterflux-ai.addToContextAndFocus",
+				"command": "kilo-code.addToContextAndFocus",
 				"key": "ctrl+i",
 				"mac": "cmd+i",
 				"win": "ctrl+i",
@@ -484,13 +484,13 @@
 				"when": "editorTextFocus && !github.copilot.completions.enabled && kilocode.ghost.enableQuickInlineTaskKeybinding"
 			},
 			{
-				"command": "counterflux-ai.ghost.showIncompatibilityExtensionPopup",
+				"command": "kilo-code.ghost.showIncompatibilityExtensionPopup",
 				"key": "ctrl+i",
 				"mac": "cmd+i",
 				"when": "editorTextFocus && github.copilot.completions.enabled && kilocode.ghost.enableQuickInlineTaskKeybinding"
 			},
 			{
-				"command": "counterflux-ai.toggleAutoApprove",
+				"command": "kilo-code.toggleAutoApprove",
 				"key": "cmd+alt+a",
 				"mac": "cmd+alt+a",
 				"win": "ctrl+alt+a",
@@ -499,18 +499,18 @@
 		],
 		"submenus": [
 			{
-				"id": "counterflux-ai.contextMenu",
+				"id": "kilo-code.contextMenu",
 				"label": "%views.contextMenu.label%"
 			},
 			{
-				"id": "counterflux-ai.terminalMenu",
+				"id": "kilo-code.terminalMenu",
 				"label": "%views.terminalMenu.label%"
 			}
 		],
 		"configuration": {
 			"title": "%configuration.title%",
 			"properties": {
-				"counterflux-ai.allowedCommands": {
+				"kilo-code.allowedCommands": {
 					"type": "array",
 					"items": {
 						"type": "string"
@@ -522,7 +522,7 @@
 					],
 					"description": "%commands.allowedCommands.description%"
 				},
-				"counterflux-ai.deniedCommands": {
+				"kilo-code.deniedCommands": {
 					"type": "array",
 					"items": {
 						"type": "string"
@@ -530,14 +530,14 @@
 					"default": [],
 					"description": "%commands.deniedCommands.description%"
 				},
-				"counterflux-ai.commandExecutionTimeout": {
+				"kilo-code.commandExecutionTimeout": {
 					"type": "number",
 					"default": 0,
 					"minimum": 0,
 					"maximum": 600,
 					"description": "%commands.commandExecutionTimeout.description%"
 				},
-				"counterflux-ai.commandTimeoutAllowlist": {
+				"kilo-code.commandTimeoutAllowlist": {
 					"type": "array",
 					"items": {
 						"type": "string"
@@ -545,12 +545,12 @@
 					"default": [],
 					"description": "%commands.commandTimeoutAllowlist.description%"
 				},
-				"counterflux-ai.preventCompletionWithOpenTodos": {
+				"kilo-code.preventCompletionWithOpenTodos": {
 					"type": "boolean",
 					"default": false,
 					"description": "%commands.preventCompletionWithOpenTodos.description%"
 				},
-				"counterflux-ai.vsCodeLmModelSelector": {
+				"kilo-code.vsCodeLmModelSelector": {
 					"type": "object",
 					"properties": {
 						"vendor": {
@@ -564,58 +564,58 @@
 					},
 					"description": "%settings.vsCodeLmModelSelector.description%"
 				},
-				"counterflux-ai.customStoragePath": {
+				"kilo-code.customStoragePath": {
 					"type": "string",
 					"default": "",
 					"description": "%settings.customStoragePath.description%"
 				},
-				"counterflux-ai.enableCodeActions": {
+				"kilo-code.enableCodeActions": {
 					"type": "boolean",
 					"default": true,
 					"description": "%settings.enableCodeActions.description%"
 				},
-				"counterflux-ai.autoImportSettingsPath": {
+				"kilo-code.autoImportSettingsPath": {
 					"type": "string",
 					"default": "",
 					"description": "%settings.autoImportSettingsPath.description%"
 				},
-				"counterflux-ai.maximumIndexedFilesForFileSearch": {
+				"kilo-code.maximumIndexedFilesForFileSearch": {
 					"type": "number",
 					"default": 10000,
 					"minimum": 5000,
 					"maximum": 500000,
 					"description": "%settings.maximumIndexedFilesForFileSearch.description%"
 				},
-				"counterflux-ai.useAgentRules": {
+				"kilo-code.useAgentRules": {
 					"type": "boolean",
 					"default": true,
 					"description": "%settings.useAgentRules.description%"
 				},
-				"counterflux-ai.apiRequestTimeout": {
+				"kilo-code.apiRequestTimeout": {
 					"type": "number",
 					"default": 600,
 					"minimum": 0,
 					"maximum": 86400,
 					"description": "%settings.apiRequestTimeout.description%"
 				},
-				"counterflux-ai.newTaskRequireTodos": {
+				"kilo-code.newTaskRequireTodos": {
 					"type": "boolean",
 					"default": false,
 					"description": "%settings.newTaskRequireTodos.description%"
 				},
-				"counterflux-ai.enableSettingsSync": {
+				"kilo-code.enableSettingsSync": {
 					"type": "boolean",
 					"default": true,
 					"description": "%settings.enableSettingsSync.description%"
 				},
-				"counterflux-ai.codeIndex.embeddingBatchSize": {
+				"kilo-code.codeIndex.embeddingBatchSize": {
 					"type": "number",
 					"default": 60,
 					"minimum": 1,
 					"maximum": 200,
 					"description": "%settings.codeIndex.embeddingBatchSize.description%"
 				},
-				"counterflux-ai.toolProtocol": {
+				"kilo-code.toolProtocol": {
 					"type": "string",
 					"enum": [
 						"xml",
@@ -624,7 +624,7 @@
 					"default": "xml",
 					"description": "%settings.toolProtocol.description%"
 				},
-				"counterflux-ai.debug": {
+				"kilo-code.debug": {
 					"type": "boolean",
 					"default": false,
 					"description": "%settings.debug.description%"
@@ -654,14 +654,14 @@
 	"scripts": {
 		"lint": "eslint . --ext=ts --max-warnings=0",
 		"check-types": "tsc --noEmit",
-		"pretest": "turbo run counterflux-ai#bundle --cwd ..",
+		"pretest": "turbo run kilo-code#bundle --cwd ..",
 		"test": "vitest run",
 		"format": "prettier --write .",
 		"bundle": "node esbuild.mjs",
 		"vscode:prepublish": "pnpm bundle --production",
 		"vsix:clean": "rimraf ../bin",
 		"vsix": "mkdirp ../bin && vsce package --no-dependencies --out ../bin",
-		"vsix:unpacked": "mkdirp ../bin-unpacked && unzip -q -o ../bin/counterflux-ai-*.vsix -d ../bin-unpacked",
+		"vsix:unpacked": "mkdirp ../bin-unpacked && unzip -q -o ../bin/kilo-code-*.vsix -d ../bin-unpacked",
 		"publish:marketplace": "vsce publish --no-dependencies && ovsx publish --no-dependencies",
 		"watch:bundle": "pnpm bundle --watch",
 		"watch:tsc": "cd .. && tsc --noEmit --watch --project src/tsconfig.json",

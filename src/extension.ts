@@ -347,7 +347,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	if (!context.globalState.get("firstInstallCompleted")) {
 		outputChannel.appendLine("First installation detected, opening Kilo Code sidebar!")
 		try {
-			await vscode.commands.executeCommand("counterflux-ai.SidebarProvider.focus")
+			await vscode.commands.executeCommand("kilo-code.SidebarProvider.focus")
 
 			outputChannel.appendLine("Opening Kilo Code walkthrough")
 
@@ -355,7 +355,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			// https://discord.com/channels/1349288496988160052/1395865796026040470
 			await vscode.commands.executeCommand(
 				"workbench.action.openWalkthrough",
-				"counterflux.counterflux-ai#counterfluxAIWalkthrough",
+				"kilocode.kilo-code#kiloCodeWalkthrough",
 				false,
 			)
 

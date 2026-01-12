@@ -12,7 +12,7 @@ export function checkAnthropicApiKeyConflict(): void {
 		return
 	}
 
-	const config = vscode.workspace.getConfiguration("counterflux-ai")
+	const config = vscode.workspace.getConfiguration("kilo-code")
 	const provider = config.get<string>("apiProvider")
 
 	if (provider === "claude-code") {
